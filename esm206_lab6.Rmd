@@ -113,3 +113,7 @@ How can I actually include my model equation in a report?
 extract_eq(model = penguin_lm, use_coefs = TRUE)
 ```
 
+```{r}
+plot(penguin_lm)
+```
+
