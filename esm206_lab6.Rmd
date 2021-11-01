@@ -59,3 +59,57 @@ If these samples were drawn from populations with the same ranks (medians), the 
 There is no significant difference in ranks (often you'll see medians) between group 1 and group 2 (statistical summary). 
 
 Median scores for group 1 (M = 14) and group 2 (M = 12) did not differ significantly (Mann Whitney U test: U(df) = 86, p = 0.28)
+
+To look at documentation:
+type in `?wilcox.test` then you can recall values with `mwu$p.value`, etc.
+
+## Linear regression
+
+Simple linear regression (single dependent variable, a single independent variable)
+
+```{r, include = FALSE}
+# Make an exploratory plot of penguin body mass vs. flipper length (x-axis)
+
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_light()
+```
+
+Find a linear regression model using ordinary least squares describing the relationship between flipper length and body mass for these penguins. 
+
+3 pieces:
+
+- What type of model?
+- What is the relationship to model (DV - IV(s))?
+- Where is the data that's sued to create this model?
+
+```{r}
+penguin_lm <- lm(body_mass_g ~ flipper_length_mm, data = penguins)
+```
+
+y = mx + b
+y is body mass
+x is flipper length
+body mass = 49.7(flipper length) - 5780.83
+what is the coefficient for flipper length? The slope! On average, I expect for every one mm increase in flipper length, I expect a 49.7 gram increase in body mass! units = g/mm
+
+-5780.08 units would be grams 
+Interpretation: this intercept is not meaningful. Would have to extend flipper length to 0. 
+
+
+### broom package returns model outputs as tidy data frames
+
+```{r}
+penguin_lm_tidy <- broom::tidy(penguin_lm)
+
+broom::glance(penguin_lm) #gives model-wide uncertainties and whatnot in a nice data frame - more on Wednesday
+```
+
+
+How can I actually include my model equation in a report?
+
+```{r}
+extract_eq(model = penguin_lm, use_coefs = TRUE)
+```
+
